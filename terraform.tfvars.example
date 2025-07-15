@@ -1,0 +1,12 @@
+# Copy this file to terraform.tfvars and fill in your actual values
+# terraform.tfvars is ignored by git, so your sensitive data won't be committed
+
+tenant_id       = "your-azure-tenant-id-here"
+subscription_id = "your-azure-subscription-id-here"
+environment     = "public"
+
+
+# Optional: Override default values
+# resource_group_name = "my-custom-rg"
+# location = "West US 2"
+# storage_account_name = "mystorageaccount"

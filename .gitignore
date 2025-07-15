@@ -1,0 +1,22 @@
+# Terraform files to ignore
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Variable files containing sensitive data
+provider.tf
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Environment specific files
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
