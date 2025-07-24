@@ -4,16 +4,24 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool:
-  vmImage: ubuntu-latest
+parameters:
+  - name: deployEnv
+    type: object
+    default:
+      serviceConnection: 'my-azure-spn'
+      environment: 'dev'
+      region: 'eastus'
+      environmentNumber: '01'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: DeployTerraform
+    displayName: "Deploy Infra with Terraform"
+    jobs:
+      - template: pipelines/stages/terraform-deploy.yaml
+        parameters:
+          deployEnv: ${{ parameters.deployEnv }}
+ 

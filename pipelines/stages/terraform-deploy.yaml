@@ -1,0 +1,14 @@
+parameters:
+ - name: deployEnv
+   type: object
+jobs:
+ - job: TerraformJob
+   displayName: "Terraform Plan & Apply"
+   steps:
+     - template: ../steps/terraform-install.yaml
+     - template: ../steps/terraform-init-plan.yaml
+       parameters:
+         deployEnv: ${{ parameters.deployEnv }}
+     - template: ../steps/terraform-apply.yaml
+       parameters:
+         deployEnv: ${{ parameters.deployEnv }}

@@ -1,0 +1,29 @@
+# pipelines/steps/terraform-init-plan.yaml
+
+parameters:
+  - name: deployEnv
+    type: object
+
+steps:
+- task: AzureCLI@2
+  displayName: "Terraform Init + Validate + Plan"
+  inputs:
+    azureSubscription: ${{ parameters.deployEnv.serviceConnection }}
+    scriptType: bash
+    scriptLocation: inlineScript
+    addSpnToEnvironment: true
+    workingDirectory: "$(System.DefaultWorkingDirectory)/main"
+    inlineScript: |
+      set -x
+      export ARM_CLIENT_ID=$servicePrincipalId
+      export ARM_CLIENT_SECRET=$servicePrincipalKey
+      export ARM_TENANT_ID=$tenantId
+      export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
+      echo "PWD: $(pwd)"
+      cd "${{ parameters.deployEnv.region }}/${{ parameters.deployEnv.environmentNumber }}" || exit 1
+      
+      terraform init -backend-config="key=${{ parameters.deployEnv.environment }}-${{ parameters.deployEnv.region }}.tfstate"
+      terraform validate
+      terraform plan -out=tfplan
+
