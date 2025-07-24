@@ -12,7 +12,7 @@ parameters:
   - name: deployEnv
     type: object
     default:
-      serviceConnection: 'my-azure-spn'
+      serviceConnection: 'ado-sp'
       environment: 'dev'
       region: 'eastus'
       environmentNumber: '01'
